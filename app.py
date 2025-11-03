@@ -1,28 +1,40 @@
 import streamlit as st
 import numpy as np
 import joblib
-#from PIL import Image
+
+# Set page configuration
+st.set_page_config(
+    page_title="Health Prediction App",
+    page_icon="❤️",
+    layout="wide",
+)
 
 # Load ML models
 diabetes_model = joblib.load("model/diabetes_model.sav")
 heart_model = joblib.load("model/heart_disease_model.sav")
 parkinsons_model = joblib.load("model/parkinsons_model.sav")
 
-# App title and developer info
-st.title("Health Prediction App")
-
-# Load and display profile image
-# Option 1: Local image
-#image = Image.open("images/image(101).png")  # Place image in images/ folder
-#st.image(image, caption="Developed by Sudeep", width=150)
-
-# Option 2: From GitHub URL (if uploaded to GitHub)
-# st.image("https://raw.githubusercontent.com/username/repo/main/images/profile.jpg",
-#          caption="Developed by Sudha", width=150)
-
-# Sidebar for model selection
+# Sidebar with developer name
+st.sidebar.markdown("<h3 style='color:red;'>Developed by Sudha</h3>", unsafe_allow_html=True)
+st.sidebar.markdown("---")
 model_choice = st.sidebar.selectbox("Choose a Prediction Model",
                                     ("Diabetes", "Heart Disease", "Parkinsons"))
+
+# Custom CSS for red theme
+st.markdown("""
+    <style>
+        .stButton>button {
+            background-color: red;
+            color: white;
+        }
+        .stNumberInput>div>div>input {
+            border: 2px solid red;
+        }
+        .stHeader, h1, h2, h3 {
+            color: red;
+        }
+    </style>
+""", unsafe_allow_html=True)
 
 # Prediction functions
 def predict_diabetes(input_data):
@@ -39,6 +51,9 @@ def predict_parkinsons(input_data):
     input_array = np.array(input_data).reshape(1, -1)
     prediction = parkinsons_model.predict(input_array)
     return "Parkinsons" if prediction[0]==1 else "No Parkinsons"
+
+# Main app content
+st.title("❤️ Health Prediction App ❤️")
 
 # Diabetes Prediction
 if model_choice == "Diabetes":
