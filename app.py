@@ -1,7 +1,7 @@
 import streamlit as st
 import numpy as np
 import joblib
-from PIL import Image
+#from PIL import Image
 
 # Load ML models
 diabetes_model = joblib.load("model/diabetes_model.sav")
@@ -13,8 +13,8 @@ st.title("Health Prediction App")
 
 # Load and display profile image
 # Option 1: Local image
-image = Image.open("images/image(101).png")  # Place image in images/ folder
-st.image(image, caption="Developed by Sudeep", width=150)
+#image = Image.open("images/image(101).png")  # Place image in images/ folder
+#st.image(image, caption="Developed by Sudeep", width=150)
 
 # Option 2: From GitHub URL (if uploaded to GitHub)
 # st.image("https://raw.githubusercontent.com/username/repo/main/images/profile.jpg",
