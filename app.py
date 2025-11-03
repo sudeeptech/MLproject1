@@ -1,53 +1,63 @@
 import streamlit as st
 import numpy as np
 import joblib
+from PIL import Image
 
 # Load ML models
 diabetes_model = joblib.load("model/diabetes_model.sav")
 heart_model = joblib.load("model/heart_disease_model.sav")
 parkinsons_model = joblib.load("model/parkinsons_model.sav")
 
-# Title
-st.markdown("<h1 style='color:red;'>Health Prediction App</h1>", unsafe_allow_html=True)
-st.markdown("<h3 style='color:blue; font-style:italic;'>Using Machine Learning</h3>", unsafe_allow_html=True)
+# App title and developer info
+st.title("Health Prediction App")
 
-# Sidebar
+# Load and display profile image
+# Option 1: Local image
+image = Image.open("images/image(101).png")  # Place image in images/ folder
+st.image(image, caption="Developed by Sudeep", width=150)
+
+# Option 2: From GitHub URL (if uploaded to GitHub)
+# st.image("https://raw.githubusercontent.com/username/repo/main/images/profile.jpg",
+#          caption="Developed by Sudha", width=150)
+
+# Sidebar for model selection
 model_choice = st.sidebar.selectbox("Choose a Prediction Model",
                                     ("Diabetes", "Heart Disease", "Parkinsons"))
 
 # Prediction functions
-def predict_diabetes(data):
-    arr = np.array(data).reshape(1, -1)
-    pred = diabetes_model.predict(arr)
-    return "Diabetic" if pred[0] == 1 else "Not Diabetic"
+def predict_diabetes(input_data):
+    input_array = np.array(input_data).reshape(1, -1)
+    prediction = diabetes_model.predict(input_array)
+    return "Diabetic" if prediction[0]==1 else "Not Diabetic"
 
-def predict_heart(data):
-    arr = np.array(data).reshape(1, -1)
-    pred = heart_model.predict(arr)
-    return "Heart Disease" if pred[0] == 1 else "No Heart Disease"
+def predict_heart(input_data):
+    input_array = np.array(input_data).reshape(1, -1)
+    prediction = heart_model.predict(input_array)
+    return "Heart Disease" if prediction[0]==1 else "No Heart Disease"
 
-def predict_parkinsons(data):
-    arr = np.array(data).reshape(1, -1)
-    pred = parkinsons_model.predict(arr)
-    return "Parkinsons" if pred[0] == 1 else "No Parkinsons"
+def predict_parkinsons(input_data):
+    input_array = np.array(input_data).reshape(1, -1)
+    prediction = parkinsons_model.predict(input_array)
+    return "Parkinsons" if prediction[0]==1 else "No Parkinsons"
 
-# --- App Interface ---
+# Diabetes Prediction
 if model_choice == "Diabetes":
     st.header("Diabetes Prediction")
     pregnancies = st.number_input("Number of Pregnancies", 0, 20)
     glucose = st.number_input("Glucose Level", 0, 200)
     bp = st.number_input("Blood Pressure", 0, 140)
-    skin = st.number_input("Skin Thickness", 0, 100)
+    skin_thickness = st.number_input("Skin Thickness", 0, 100)
     insulin = st.number_input("Insulin Level", 0, 900)
     bmi = st.number_input("BMI", 0.0, 70.0)
-    pedigree = st.number_input("Diabetes Pedigree Function", 0.0, 2.5)
+    diabetes_pedigree = st.number_input("Diabetes Pedigree Function", 0.0, 2.5)
     age = st.number_input("Age", 0, 120)
 
-    result = st.button("Predict Diabetes")
-    if result:
-        prediction = predict_diabetes([pregnancies, glucose, bp, skin, insulin, bmi, pedigree, age])
-        st.markdown(f"<h2 style='color:red;'>Prediction: {prediction}</h2>", unsafe_allow_html=True)
+    if st.button("Predict"):
+        result = predict_diabetes([pregnancies, glucose, bp, skin_thickness,
+                                   insulin, bmi, diabetes_pedigree, age])
+        st.success(f"Prediction: {result}")
 
+# Heart Disease Prediction
 elif model_choice == "Heart Disease":
     st.header("Heart Disease Prediction")
     age = st.number_input("Age", 0, 120)
@@ -55,21 +65,21 @@ elif model_choice == "Heart Disease":
     cp = st.number_input("Chest Pain Type (0-3)", 0, 3)
     trestbps = st.number_input("Resting Blood Pressure", 0, 200)
     chol = st.number_input("Serum Cholesterol", 0, 600)
-    fbs = st.number_input("Fasting Blood Sugar >120 mg/dl (1=True,0=False)", 0, 1)
+    fbs = st.number_input("Fasting Blood Sugar > 120 mg/dl (1=True, 0=False)", 0, 1)
     restecg = st.number_input("Resting ECG (0-2)", 0, 2)
     thalach = st.number_input("Max Heart Rate Achieved", 0, 250)
-    exang = st.number_input("Exercise Induced Angina (1=Yes,0=No)", 0, 1)
+    exang = st.number_input("Exercise Induced Angina (1=Yes, 0=No)", 0, 1)
     oldpeak = st.number_input("Oldpeak", 0.0, 10.0)
-    slope = st.number_input("Slope (0-2)", 0, 2)
-    ca = st.number_input("Major Vessels (0-3)", 0, 3)
+    slope = st.number_input("Slope of Peak Exercise ST segment (0-2)", 0, 2)
+    ca = st.number_input("Number of Major Vessels (0-3)", 0, 3)
     thal = st.number_input("Thalassemia (1-3)", 0, 3)
 
-    result = st.button("Predict Heart Disease")
-    if result:
-        prediction = predict_heart([age, sex, cp, trestbps, chol, fbs, restecg, thalach,
-                                    exang, oldpeak, slope, ca, thal])
-        st.markdown(f"<h2 style='color:red;'>Prediction: {prediction}</h2>", unsafe_allow_html=True)
+    if st.button("Predict Heart Disease"):
+        result = predict_heart([age, sex, cp, trestbps, chol, fbs, restecg,
+                                thalach, exang, oldpeak, slope, ca, thal])
+        st.success(f"Prediction: {result}")
 
+# Parkinsons Prediction
 elif model_choice == "Parkinsons":
     st.header("Parkinsons Prediction")
     fo = st.number_input("MDVP:Fo(Hz)", 0.0, 500.0)
@@ -95,13 +105,8 @@ elif model_choice == "Parkinsons":
     D2 = st.number_input("D2", 0.0, 5.0)
     PPE = st.number_input("PPE", 0.0, 1.0)
 
-    result = st.button("Predict Parkinsons")
-    if result:
-        prediction = predict_parkinsons([fo, fhi, flo, Jitter_percent, Jitter_Abs, RAP, PPQ, DDP,
-                                         Shimmer, Shimmer_dB, APQ3, APQ5, APQ, DDA, NHR, HNR,
-                                         RPDE, DFA, spread1, spread2, D2, PPE])
-        st.markdown(f"<h2 style='color:red;'>Prediction: {prediction}</h2>", unsafe_allow_html=True)
-
-# Developer credit
-st.markdown("<hr>", unsafe_allow_html=True)
-st.markdown("<p style='text-align:center; color:green; font-size:14px;'>Developed by: Sudeep</p>", unsafe_allow_html=True)
+    if st.button("Predict Parkinsons"):
+        result = predict_parkinsons([fo, fhi, flo, Jitter_percent, Jitter_Abs, RAP, PPQ, DDP,
+                                     Shimmer, Shimmer_dB, APQ3, APQ5, APQ, DDA, NHR, HNR,
+                                     RPDE, DFA, spread1, spread2, D2, PPE])
+        st.success(f"Prediction: {result}")
