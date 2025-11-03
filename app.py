@@ -15,7 +15,7 @@ heart_model = joblib.load("model/heart_disease_model.sav")
 parkinsons_model = joblib.load("model/parkinsons_model.sav")
 
 # Sidebar with developer name
-st.sidebar.markdown("<h3 style='color:red;'>Developed by Sudha</h3>", unsafe_allow_html=True)
+st.sidebar.markdown("<h3 style='color:red;'>Developed by Sudeep</h3>", unsafe_allow_html=True)
 st.sidebar.markdown("---")
 model_choice = st.sidebar.selectbox("Choose a Prediction Model",
                                     ("Diabetes", "Heart Disease", "Parkinsons"))
