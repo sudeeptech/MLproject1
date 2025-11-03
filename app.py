@@ -14,9 +14,7 @@ diabetes_model = joblib.load("model/diabetes_model.sav")
 heart_model = joblib.load("model/heart_disease_model.sav")
 parkinsons_model = joblib.load("model/parkinsons_model.sav")
 
-# Sidebar with developer name
-st.sidebar.markdown("<h3 style='color:red;'>Developed by Sudeep</h3>", unsafe_allow_html=True)
-st.sidebar.markdown("---")
+# Sidebar for model selection
 model_choice = st.sidebar.selectbox("Choose a Prediction Model",
                                     ("Diabetes", "Heart Disease", "Parkinsons"))
 
@@ -32,6 +30,12 @@ st.markdown("""
         }
         .stHeader, h1, h2, h3 {
             color: red;
+        }
+        .footer {
+            color: red;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
         }
     </style>
 """, unsafe_allow_html=True)
@@ -125,3 +129,6 @@ elif model_choice == "Parkinsons":
                                      Shimmer, Shimmer_dB, APQ3, APQ5, APQ, DDA, NHR, HNR,
                                      RPDE, DFA, spread1, spread2, D2, PPE])
         st.success(f"Prediction: {result}")
+
+# Footer: Developed by Sudeep
+st.markdown("<div class='footer'>Developed by Sudeep</div>", unsafe_allow_html=True)
