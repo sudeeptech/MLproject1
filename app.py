@@ -104,4 +104,4 @@ elif model_choice == "Parkinsons":
 
 # Developer credit
 st.markdown("<hr>", unsafe_allow_html=True)
-st.markdown("<p style='text-align:center; color:green; font-size:14px;'>Developed by: Sudha</p>", unsafe_allow_html=True)
+st.markdown("<p style='text-align:center; color:green; font-size:14px;'>Developed by: Sudeep</p>", unsafe_allow_html=True)
