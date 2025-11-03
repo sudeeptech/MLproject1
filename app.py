@@ -130,5 +130,5 @@ elif model_choice == "Parkinsons":
                                      RPDE, DFA, spread1, spread2, D2, PPE])
         st.success(f"Prediction: {result}")
 
-# Footer: Developed by Sudeep
-st.markdown("<div class='footer'>Developed by Sudeep</div>", unsafe_allow_html=True)
+# Footer: Developed by Sudeep using Machine Learning
+st.markdown("<div class='footer'>Developed by Sudeep using Machine Learning</div>", unsafe_allow_html=True)
