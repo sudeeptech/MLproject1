@@ -3,9 +3,9 @@ import numpy as np
 import joblib
 
 # Load ML models
-diabetes_model = joblib.load("models/diabetes_model.sav")
-heart_model = joblib.load("models/heart_disease_model.sav")
-parkinsons_model = joblib.load("models/parkinsons_model.sav")
+diabetes_model = joblib.load("model/diabetes_model.sav")
+heart_model = joblib.load("model/heart_disease_model.sav")
+parkinsons_model = joblib.load("model/parkinsons_model.sav")
 
 st.title("Health Prediction App")
 
